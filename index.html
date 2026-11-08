@@ -719,6 +719,43 @@ img.avatar{object-fit:cover;background:var(--sunk);display:block}
 .req .pics .phimg,.upd .phimg{border-radius:10px}
 .req .pics .phimg{width:96px}
 footer{padding-block:44px}
+/* pairs, theme switch, motion, select */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:var(--surface)}
+.pair figure{margin:0;position:relative}
+.pair .phimg,.pair .ph{aspect-ratio:4/3;width:100%;object-fit:cover;display:block}
+.pair figcaption{position:absolute;left:10px;bottom:10px;font:600 11.5px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.55)}
+.lbm{position:relative;height:100%}
+.lbm-img,.lbm-img .phimg{height:100%}
+.lbm-img .phimg{aspect-ratio:4/3}
+.lbm-tabs{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;background:rgba(12,14,14,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:999px;padding:4px}
+.lbm-tabs button{border:0;background:none;color:#fff;font-weight:600;font-size:13.5px;padding:8px 18px;border-radius:999px}
+.lbm-tabs button[aria-pressed="true"]{background:#fff;color:#111514}
+.themebtn{width:38px;padding:0;justify-content:center}
+html.theming *,html.theming *::before{transition:background-color .35s ease,color .35s ease,border-color .35s ease!important}
+@media (prefers-reduced-motion:no-preference){
+  #app>*{animation:pagein .6s var(--ease) both}
+  .mosaic .tile img{animation:drift 10s var(--ease) both}
+  .rv{transform:translateY(28px);transition:transform 1s var(--ease)}
+  .rv.in{transform:none}
+}
+@keyframes pagein{from{opacity:0;transform:translateY(10px)}}
+@keyframes drift{from{transform:scale(1.07)}}
+.selrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px}
+.selcard{display:grid;gap:4px;text-decoration:none;color:var(--ink);font-size:14px}
+.selimg{border-radius:18px;overflow:hidden;aspect-ratio:4/5;background:var(--sunk);margin-bottom:8px;isolation:isolate}
+.selimg img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s var(--ease)}
+.selcard:hover .selimg img{transform:scale(1.04)}
+.selname{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.selname b{font-size:16px;font-weight:600;letter-spacing:-.02em}
+.selmeta{font-size:13.5px}
+.badge.sel{background:var(--ink);color:var(--surface);font-weight:600;letter-spacing:.01em}
+@media (max-width:1000px){.selrow{grid-template-columns:repeat(3,minmax(0,1fr))}.selrow .selcard:nth-child(n+4){display:none}}
+@media (max-width:560px){.selrow{grid-template-columns:repeat(2,minmax(0,1fr))}.selrow .selcard:nth-child(n+3){display:none}}
+.tquote{margin:6px 0 4px;font-size:17px;line-height:1.45;letter-spacing:-.01em;display:grid;gap:12px}
+.tquote>span{display:flex;align-items:center;gap:10px;font-size:13px;opacity:.9}
+.tquote>span b{display:block;font-size:14px}
+.tquote .avatar{width:38px;height:38px}
+
 /* menu, rows, wide photos */
 .menubtn{display:none;width:38px;padding:0;justify-content:center}
 .rowarrows{display:flex;gap:8px}
@@ -754,6 +791,7 @@ footer{padding-block:44px}
   <div class="sp"></div>
   <a class="btn sm getq" href="#start">Get it sorted</a>
   <button class="iconbtn menubtn" id="menubtn" aria-label="Menu" aria-expanded="false" aria-controls="mainnav"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <button class="iconbtn themebtn" id="themebtn" aria-label="Switch to dark mode" title="Light or dark mode"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg></button>
   <button class="iconbtn aa" id="aa" aria-pressed="false" title="Larger text and buttons"><span style="font:700 15px var(--display)">Aa</span><span class="aal">Easy read</span></button>
   <button class="iconbtn bell" id="bell" aria-label="Street alerts" aria-haspopup="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span class="count" hidden>0</span></button>
   <a class="iconbtn" href="#saved" aria-label="Shortlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.4-9.3-9A5.2 5.2 0 0 1 12 6.5 5.2 5.2 0 0 1 21.3 12C19 16.6 12 21 12 21z"/></svg><span class="count" id="savedCount">0</span></a>
@@ -797,6 +835,7 @@ const ICON={
   search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>',
   users:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.3-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M16 14.6c2.8 0 4.7 1.6 5.5 4.6"/></svg>'
 };
+const fmtR=r=>Math.round(r*100)%10?r.toFixed(2):r.toFixed(1);
 const stars=n=>{const f=Math.round(n);return '<span class="stars" aria-hidden="true">'+'★'.repeat(f)+'<span style="opacity:.28">'+'★'.repeat(5-f)+'</span></span>'};
 const avatar=(name,cls='')=>{const pid=window.__pmap&&window.__pmap[name];if(pid&&IMGS.has('p-'+pid))return `<img class="avatar ${cls}" src="img/p-${pid}.jpg" alt="" loading="lazy">`;let h=0;for(const c of name)h=(h*31+c.charCodeAt(0))%360;return `<span class="avatar ${cls}" style="background:${hsl(h,16,40)}">${esc(name.split(' ').map(w=>w[0]).slice(0,2).join(''))}</span>`};
 function toast(t){const d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2400)}
@@ -954,8 +993,12 @@ function pic(job,which='after',cls=''){
   return cv(which==='after'?job.k:job.b,job.seed+(which==='before'?101:0),cls);
 }
 function beforeAfter(job){
-  return `<div class="ba" style="--x:50%">${pic(job,'after')}<div class="before" style="position:absolute;inset:0">${pic(job,'before')}</div><span class="handle"></span><span class="lbl l">Before</span><span class="lbl r">After</span><input type="range" min="0" max="100" value="50" aria-label="Drag to compare before and after" data-ba></div>`;
+  return `<div class="pair"><figure>${pic(job,'before')}<figcaption>Before</figcaption></figure><figure>${pic(job,'after')}<figcaption>After</figcaption></figure></div>`;
 }
+function lbMedia(job){
+  return `<div class="lbm"><div class="lbm-img" data-view="after">${pic(job,'after')}</div><div class="lbm-img" data-view="before" hidden>${pic(job,'before')}</div><div class="lbm-tabs" role="group" aria-label="Show the job before or after"><button aria-pressed="true" data-lbv="after">After</button><button aria-pressed="false" data-lbv="before">Before</button></div></div>`;
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-lbv]');if(!b)return;const m=b.closest('.lbm');$$('.lbm-img',m).forEach(x=>x.hidden=x.dataset.view!==b.dataset.lbv);$$('[data-lbv]',m).forEach(x=>x.setAttribute('aria-pressed',x===b))});
 document.addEventListener('input',e=>{if(e.target.matches('[data-ba]'))e.target.closest('.ba').style.setProperty('--x',e.target.value+'%')});
 
 /* ---------- data ---------- */
@@ -1102,6 +1145,7 @@ PROS.forEach((p,pi)=>{
   p.cats.forEach(c=>{if(!p.jobs.some(j=>j.cat===c))console.warn('no job for',p.id,c)});
 });
 const PRO=Object.fromEntries(PROS.map(p=>[p.id,p]));
+const isSelect=p=>p.rating>=4.8&&p.recs>=20&&p.rr>=94;
 window.__pmap=Object.fromEntries(PROS.map(p=>[p.name,p.id]));
 const allJobs=()=>PROS.flatMap(p=>p.jobs);
 
@@ -1117,7 +1161,7 @@ function score(p,cat){
   return p.rating*20+Math.log10(p.reviews+1)*9+Math.min(recCount(p),90)*.32+v*2.2+(p.reply<=20?5:p.reply<=45?3:p.reply<=60?1:0)+(p.rating>=4.95?6:0)+(cat&&p.cats[0]===cat?2:0);
 }
 function whyRank(p,cat,pos){
-  const bits=[];if(p.rating>=4.95)bits.push(`${p.rating.toFixed(p.rating%1?2:1)} stars`);else bits.push(`${p.rating} stars from ${p.reviews} reviews`);
+  const bits=[];if(p.rating>=4.95)bits.push(`${p.rating.toFixed(p.rating%1?2:1)} stars`);else bits.push(`${fmtR(p.rating)} stars from ${p.reviews} reviews`);
   bits.push(`${recCount(p)} recommendations`);const v=p.jobs.filter(j=>j.verified&&(!cat||j.cat===cat)).length;if(v)bits.push(`${v} verified ${cat?CAT[cat].label.toLowerCase():''} jobs`);
   if(p.reply<=30)bits.push(`replies in ~${p.reply} min`);return bits.join(' · ');
 }
@@ -1155,7 +1199,7 @@ function viewHome(){
       <a class="guide-cta" href="#start"><span class="n">${ICON.users}</span><span><b>Not sure what to ask for?</b><span class="muted">Answer four picture questions</span></span><span aria-hidden="true">→</span></a>
     </div>
     <div class="mosaic">
-      <div class="tile">${beforeAfter(feat)}<div class="cap"><span class="tag"><b>${feat.t}, ${feat.size}</b>Dan H. · ${feat.area}</span></div></div>
+      <button class="tile job" style="border:0" data-act="job" data-id="${feat.id}">${pic(feat)}<div class="cap"><span class="tag"><b>${feat.t}, ${feat.size}</b>Dan H. · ${feat.area}</span></div></button>
       <button class="tile job" style="border:0" data-act="job" data-id="${g1.id}">${pic(g1)}<div class="cap"><span class="tag"><b>${g1.t}</b>Priya K. · ★ 4.95</span></div></button>
       <button class="tile job" style="border:0" data-act="job" data-id="${g2.id}">${pic(g2)}<div class="cap"><span class="tag"><b>${g2.t}</b>Marek N. · ${g2.size}</span></div></button>
     </div>
@@ -1165,6 +1209,11 @@ function viewHome(){
   <section class="section"><div class="wrap">
     <div class="sec-head"><div><h2>Browse by job</h2><p>From a one-off gutter clear to a new conservatory.</p></div><div class="rowarrows"><button class="iconbtn" data-row="-1" aria-label="Scroll categories left">&larr;</button><button class="iconbtn" data-row="1" aria-label="Scroll categories right">&rarr;</button></div></div>
     <div class="cats">${CATS.map((c,i)=>{const n=PROS.filter(p=>p.cats.includes(c.id)).length;return `<a class="cat" href="#search-${c.id}">${catPic(c.id,c.k,i*17+5)}<div><b>${c.label}</b><span>${n} trade${n>1?'s':''} near you</span></div></a>`}).join('')}</div>
+  </div></section>
+
+  <section class="section"><div class="wrap">
+    <div class="sec-head"><div><h2>Graft Select</h2><p>The most trusted trades on Graft, ranked by verified work, reviews and neighbour recommendations. Earned, never bought.</p></div><a class="btn ghost" href="#search">See all trades</a></div>
+    <div class="selrow">${[...PROS].filter(isSelect).sort((a,b)=>score(b)-score(a)).slice(0,5).map(p=>`<a class="selcard" href="#pro-${p.id}"><div class="selimg">${IMGS.has('p-'+p.id)?`<img src="img/p-${p.id}.jpg" alt="${esc(p.name)}" loading="lazy">`:avatar(p.name)}</div><div class="selname"><b>${esc(p.name)}</b><span class="badge sel">Select</span></div><span class="muted">${esc(CAT[p.cats[0]].label)}, ${esc(p.base.split(',')[0])}</span><span class="selmeta"><span class="stars">★</span> ${fmtR(p.rating)} <span class="muted">from ${p.reviews} reviews</span></span></a>`).join('')}</div>
   </div></section>
 
   <section class="section"><div class="wrap">
@@ -1192,7 +1241,7 @@ function viewHome(){
   </div></section>
 
   <section class="section" style="padding-bottom:56px"><div class="wrap split-cta">
-    <div class="a"><p class="eyebrow" style="color:inherit;opacity:.75">For trades</p><h3>Your work is your advert.</h3><p style="opacity:.85">Post finished jobs, collect reviews tied to them, and get found by people who want exactly what you do. No lead fees, and nobody can pay to rank above you.</p><div><a class="btn" href="#join">See how it works</a></div></div>
+    <div class="a"><p class="eyebrow" style="color:inherit;opacity:.75">For trades</p><h3>Your work is your advert.</h3><blockquote class="tquote">“I haven’t paid for a lead since I joined. Customers ring me having already seen my patios.”<span>${avatar('Dan Hollis')}<span><b>Dan Hollis</b>Hollis Hard Landscaping</span></span></blockquote><p style="opacity:.85">Post finished jobs, collect reviews tied to them, and get found by people who want exactly what you do. No lead fees, and nobody can pay to rank above you.</p><div><a class="btn" href="#join">See how it works</a></div></div>
     <div class="b"><p class="eyebrow">For customers</p><h3>Got someone great?</h3><p class="muted">Recommend the trades you’d use again. It helps neighbours find good people and pushes those trades up the results.</p><div><a class="btn ghost" href="#search">Find someone to recommend</a></div></div>
   </div></section>`;
   $('#heroSearch').addEventListener('submit',e=>{e.preventDefault();doSearch($('#hq').value,$('#hpc').value)});
@@ -1386,12 +1435,12 @@ function viewSearch(){
 function proCard(p,i,mostRec){
   const js=p.jobs.filter(j=>(!S.cat||j.cat===S.cat)&&(!S.style||j.st.includes(S.style)));const show=(js.length?js:p.jobs).slice(0,3);
   const lead=S.sort==='rank'&&i===0&&p.rating>=4.85;
-  const badges=[lead?`<span class="badge top">★ Top pick${S.cat?' for '+CAT[S.cat].label.toLowerCase():''}</span>`:'',p.rating>=4.95?`<span class="badge top">5-star rated</span>`:'',mostRec&&mostRec.id===p.id&&recCount(p)>=20?`<span class="badge rec">${ICON.thumb}Most recommended</span>`:'',myRecs[p.id]?`<span class="badge rec">You recommended</span>`:''].join('');
+  const badges=[isSelect(p)?'<span class="badge sel">Graft Select</span>':'',lead?`<span class="badge top">★ Top pick${S.cat?' for '+CAT[S.cat].label.toLowerCase():''}</span>`:'',p.rating>=4.95?`<span class="badge top">5-star rated</span>`:'',mostRec&&mostRec.id===p.id&&recCount(p)>=20?`<span class="badge rec">${ICON.thumb}Most recommended</span>`:'',myRecs[p.id]?`<span class="badge rec">You recommended</span>`:''].join('');
   return `<article class="pro ${lead?'lead':''}">
     <div class="info">
       ${badges?`<div class="chips" style="gap:6px">${badges}</div>`:''}
       <div class="idrow">${avatar(p.name)}<div style="min-width:0"><h3><a href="#pro-${p.id}">${esc(p.name)}</a></h3><div class="sub">${esc(p.biz)} · ${esc(p.base)} · ${p.mi} mi</div></div></div>
-      <div class="facts"><span class="rating">${stars(p.rating)} ${p.rating}</span><span><b>${p.reviews}</b> reviews</span><span><b>${recCount(p)}</b> recommend</span><span>Replies in <b>~${p.reply<60?p.reply+' min':Math.round(p.reply/60)+' hr'}</b></span></div>
+      <div class="facts"><span class="rating">${stars(p.rating)} ${fmtR(p.rating)}</span><span><b>${p.reviews}</b> reviews</span><span><b>${recCount(p)}</b> recommend</span><span>Replies in <b>~${p.reply<60?p.reply+' min':Math.round(p.reply/60)+' hr'}</b></span></div>
       ${S.sort==='rank'?`<div class="why-rank muted">${whyRank(p,S.cat)}</div>`:''}
       <div class="facts"><span>${ICON.tag.replace('<svg','<svg width="14" height="14" style="vertical-align:-2px"')} ${esc(p.menu[0][0])} <b>${esc(p.menu[0][1])}</b></span></div>
       <div class="acts"><a class="btn sm" href="#pro-${p.id}">View portfolio</a><button class="btn ghost sm" data-act="save" data-id="${p.id}" aria-pressed="${saved.has(p.id)}">${saved.has(p.id)?ICON.heartf+'Saved':ICON.heart+'Save'}</button></div>
@@ -1436,7 +1485,7 @@ function postHTML(po){
   return `<article class="post"><div class="ph-head">${who}<span style="flex:1"></span><span class="badge ${po.type==='offer'?'top':po.type==='ask'||po.type==='street'?'rec':po.type==='avail'?'good':''}">${tag}</span></div>
     <p class="txt">${esc(po.text)}</p>
     ${j?(j.b?beforeAfter(j):`<button class="job" style="border:0;border-radius:0" data-act="job" data-id="${j.id}">${pic(j)}</button>`):''}
-    ${po.answers?`<div class="txt" style="padding-top:12px"><p class="eyebrow" style="margin-bottom:8px">Neighbours suggested</p><div class="chips">${po.answers.map(id=>`<a class="chip" href="#pro-${id}">${esc(PRO[id].name)} · <span class="stars">★</span> ${PRO[id].rating}</a>`).join('')}</div></div>`:''}
+    ${po.answers?`<div class="txt" style="padding-top:12px"><p class="eyebrow" style="margin-bottom:8px">Neighbours suggested</p><div class="chips">${po.answers.map(id=>`<a class="chip" href="#pro-${id}">${esc(PRO[id].name)} · <span class="stars">★</span> ${fmtR(PRO[id].rating)}</a>`).join('')}</div></div>`:''}
     ${po.type==='street'&&j?`<div class="txt" style="padding-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center"><span class="muted" style="font-size:13px;flex:1 1 180px">Done by <a href="#pro-${j.pro}" style="font-weight:600;color:var(--ink)">${esc(PRO[j.pro].name)}</a> · ${esc(j.cost)}</span><a class="btn sm" href="#pro-${j.pro}">Get a quote like this</a></div>`:''}
     <div class="counts"><span data-likes="${po.id}">${n}</span> likes · ${po.com+(po.mine||0)} comments</div>
     <div class="pacts"><button data-act="like" data-id="${po.id}" class="${liked?'on':''}" aria-pressed="${liked}">${ICON.thumb}Like</button><button data-act="cmt" data-id="${po.id}">💬 Comment</button><button data-act="share" data-id="${po.id}">↗ Share</button></div>
@@ -1468,13 +1517,13 @@ function viewPro(id){
             <div class="pmeta"><span>${esc(p.base)}</span><span>${p.followers.toLocaleString()} followers</span><a href="#reviews" data-act="scroll" data-v="reviews">${p.reviews} reviews</a><a href="#recommend" data-act="scroll" data-v="recommend">${recCount(p)} recommendations</a></div></div>
           <div style="display:flex;gap:10px;align-items:center;min-width:0">${avatar(p.biz.replace(/&/g,''),'')}<div style="font-size:13.5px"><b>${esc(p.biz)}</b><div class="muted">${esc(p.team)} · since ${p.since}</div></div></div>
         </div>
-        <div class="chips" style="margin-top:12px;gap:6px">${top?`<span class="badge top">★ Top-ranked for ${CAT[p.cats[0]].label.toLowerCase()} near you</span>`:''}${p.rating>=4.95?'<span class="badge top">5-star rated</span>':''}<span class="badge good">${ICON.clock}${esc(freeTxt)}</span><span class="badge">Replies in ~${p.reply<60?p.reply+' min':Math.round(p.reply/60)+' hr'}</span></div>
+        <div class="chips" style="margin-top:12px;gap:6px">${isSelect(p)?'<span class="badge sel">Graft Select</span>':''}${top?`<span class="badge top">★ Top-ranked for ${CAT[p.cats[0]].label.toLowerCase()} near you</span>`:''}${p.rating>=4.95?'<span class="badge top">5-star rated</span>':''}<span class="badge good">${ICON.clock}${esc(freeTxt)}</span><span class="badge">Replies in ~${p.reply<60?p.reply+' min':Math.round(p.reply/60)+' hr'}</span></div>
         <div class="pact"><button class="btn" data-act="scroll" data-v="quote">Request a quote</button>${followBtn(id,'btn ghost')}<button class="btn ghost" data-act="scroll" data-v="recommend">${ICON.thumb}${rec?'Recommended':'Recommend'}</button><button class="btn ghost" data-act="save" data-id="${id}" aria-pressed="${saved.has(id)}">${saved.has(id)?ICON.heartf+'Saved':ICON.heart+'Save'}</button></div>
       </div>
     </section>
 
     <div class="statrow">
-      <div><b class="tnum">${p.rating} <span class="stars" style="font-size:15px">★</span></b><span>${p.reviews} reviews</span></div>
+      <div><b class="tnum">${fmtR(p.rating)} <span class="stars" style="font-size:15px">★</span></b><span>${p.reviews} reviews</span></div>
       <div><b class="tnum">${recCount(p)}</b><span>recommendations</span></div>
       <div><b class="tnum">${p.jobs.filter(j=>j.verified).length}/${p.jobs.length}</b><span>jobs verified by customers</span></div>
       <div><b class="tnum">${p.rr}%</b><span>requests answered</span></div>
@@ -1497,7 +1546,7 @@ function viewPro(id){
     <section class="card"><h2>Skills <small>Endorsed by customers and other trades</small></h2><div class="skills">${p.skills.map(s=>{const k=id+':'+s.s,on=endorsed.has(k);return `<div class="skill"><div style="min-width:0"><b>${esc(s.s)}</b><div class="muted" style="font-size:13px"><span data-end="${esc(k)}">${s.cust+(on?1:0)}</span> customers and ${s.trade} trades endorse this</div></div><button class="btn ghost sm" data-act="endorse" data-k="${esc(k)}" aria-pressed="${on}">${on?'✓ Endorsed':'Endorse'}</button></div>`}).join('')}</div></section>
 
     <section class="card" id="reviews"><h2>Reviews <small>Every review is attached to a job in the portfolio</small></h2>
-      <div class="revsum"><div><div class="big tnum">${p.rating}</div>${stars(p.rating)}<div class="muted" style="font-size:13px;margin-top:4px">${p.reviews} reviews</div></div>
+      <div class="revsum"><div><div class="big tnum">${fmtR(p.rating)}</div>${stars(p.rating)}<div class="muted" style="font-size:13px;margin-top:4px">${p.reviews} reviews</div></div>
         <div class="bars">${[['Quality of work','q'],['Reliability','rel'],['Tidiness','tidy'],['Value','val']].map(([l,k])=>`<div class="bar"><span>${l}</span><i style="--w:${avg(k)/5*100}%"></i><b class="tnum">${avg(k)}</b></div>`).join('')}</div></div>
       ${extra.map(r=>`<div class="review noimg"><div><div class="rh"><span><b>${esc(r.name)}</b> · just now</span>${stars(r.stars)}</div><p>${esc(r.text)}</p></div></div>`).join('')}
       ${reviewed.map(j=>`<div class="review"><button class="thumb" data-act="job" data-id="${j.id}" aria-label="Open ${esc(j.t)}">${pic(j)}</button><div style="min-width:0"><div class="rh"><span><b>${esc(j.review.name)}</b> · ${esc(j.area)} · ${esc(j.when)}</span>${stars(j.review.stars)}</div><p>${esc(j.review.text)}</p><div class="job-link">${ICON.check.replace('<svg','<svg width="13" height="13" style="vertical-align:-2px;color:var(--good)"')} Verified job: ${esc(j.t)}, ${esc(j.size)} · ${esc(j.cost)}</div>${j.seed%2?`<div class="reply"><b>${esc(first)} replied:</b> Thank you. It was a pleasure working on this one.</div>`:''}</div></div>`).join('')}
@@ -1527,7 +1576,7 @@ function viewPro(id){
        </form></div></div>
      <div class="panel"><h3>Price list</h3><div class="menu">${p.menu.map(([a,b,c])=>`<div><span>${esc(a)}<small>${esc(c)}</small></span><span class="price">${esc(b)}</span></div>`).join('')}</div></div>
      <div class="panel"><h3 style="font-size:16px">Availability, next 2 weeks</h3><div class="cal">${days.map(d=>`<span class="dh">${d}</span>`).join('')}${p.avail.map((a,i)=>{const d=new Date(today);d.setDate(today.getDate()+i);return `<span class="${a?'free':''}" title="${a?'Free':'Booked'}">${d.getDate()}</span>`}).join('')}</div><span class="muted" style="font-size:12.5px">Green days are free to start a job.</span></div>
-     <div class="panel"><h3 style="font-size:16px">Works alongside</h3><div class="network">${p.network.map(nid=>{const n=PRO[nid];return `<div style="display:flex;gap:10px;align-items:center">${avatar(n.name)}<a href="#pro-${nid}" style="flex:1;min-width:0;text-decoration:none"><b>${esc(n.name)}</b><div class="muted" style="font-size:12.5px">${esc(CAT[n.cats[0]].label)} · ★ ${n.rating}</div></a>${followBtn(nid)}</div>`}).join('')}</div><span class="muted" style="font-size:12.5px">Trades ${esc(first)} trusts and works with on bigger jobs.</span></div>
+     <div class="panel"><h3 style="font-size:16px">Works alongside</h3><div class="network">${p.network.map(nid=>{const n=PRO[nid];return `<div style="display:flex;gap:10px;align-items:center">${avatar(n.name)}<a href="#pro-${nid}" style="flex:1;min-width:0;text-decoration:none"><b>${esc(n.name)}</b><div class="muted" style="font-size:12.5px">${esc(CAT[n.cats[0]].label)} · ★ ${fmtR(n.rating)}</div></a>${followBtn(nid)}</div>`}).join('')}</div><span class="muted" style="font-size:12.5px">Trades ${esc(first)} trusts and works with on bigger jobs.</span></div>
    </aside>
   </div>`;
   $('#qPhotos').addEventListener('change',e=>{const box=$('#qPrev');box.innerHTML='';[...e.target.files].slice(0,6).forEach(f=>{const r=new FileReader();r.onload=()=>{const i=new Image();i.src=r.result;i.alt='';box.appendChild(i)};r.readAsDataURL(f)})});
@@ -1550,7 +1599,7 @@ function viewFeed(){
       <div id="posts">${allPosts().map(postHTML).join('')}</div>
     </section>
     <aside style="display:grid;gap:14px;align-content:start">
-      <div class="card" style="margin:0"><h2 style="font-size:17px;margin-bottom:12px">Trades to follow</h2><div class="network">${toFollow.map(p=>`<div style="display:flex;gap:10px;align-items:center">${avatar(p.name)}<a href="#pro-${p.id}" style="flex:1;min-width:0;text-decoration:none"><b>${esc(p.name)}</b><div class="muted" style="font-size:12.5px">${esc(CAT[p.cats[0]].label)} · ★ ${p.rating} · ${recCount(p)} recs</div></a>${followBtn(p.id)}</div>`).join('')}</div></div>
+      <div class="card" style="margin:0"><h2 style="font-size:17px;margin-bottom:12px">Trades to follow</h2><div class="network">${toFollow.map(p=>`<div style="display:flex;gap:10px;align-items:center">${avatar(p.name)}<a href="#pro-${p.id}" style="flex:1;min-width:0;text-decoration:none"><b>${esc(p.name)}</b><div class="muted" style="font-size:12.5px">${esc(CAT[p.cats[0]].label)} · ★ ${fmtR(p.rating)} · ${recCount(p)} recs</div></a>${followBtn(p.id)}</div>`).join('')}</div></div>
       <div class="card" style="margin:0"><h2 style="font-size:17px;margin-bottom:12px">Free this week near CB1</h2>${PROS.filter(p=>p.avail.slice(0,4).some(Boolean)).slice(0,4).map(p=>`<a href="#pro-${p.id}" style="display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-top:1px solid var(--line);text-decoration:none;font-size:13.5px"><span><b>${esc(p.name)}</b><span class="muted"> · ${esc(CAT[p.cats[0]].label)}</span></span><span class="badge good">Free</span></a>`).join('')}</div>
     </aside></div>`;
   $('#askForm').addEventListener('submit',e=>{e.preventDefault();const mine=store.get('myposts',[]);mine.unshift({id:'m'+Date.now(),cust:'Rachel T.',area:'Romsey',type:'ask',text:$('#askText').value.trim(),likes:0,com:0,ago:'now'});store.set('myposts',mine.slice(0,10));viewFeed();toast('Question posted to your neighbourhood')});
@@ -1612,7 +1661,7 @@ function wizResult(){
    ${top.map(({p,pct,ov,liked})=>`<article class="pro" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)"><div class="info">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span class="matchpct">${pct}% match</span>${p.rating>=4.95?'<span class="badge top">5-star rated</span>':''}</div>
       <div class="idrow">${avatar(p.name)}<div><h3><a href="#pro-${p.id}">${esc(p.name)}</a></h3><div class="sub">${esc(p.biz)} · ${p.mi} mi</div></div></div>
-      <div class="facts"><span class="rating">${stars(p.rating)} ${p.rating}</span><span><b>${recCount(p)}</b> recommend</span><span>Replies in <b>~${p.reply<60?p.reply+' min':Math.round(p.reply/60)+' hr'}</b></span></div>
+      <div class="facts"><span class="rating">${stars(p.rating)} ${fmtR(p.rating)}</span><span><b>${recCount(p)}</b> recommend</span><span>Replies in <b>~${p.reply<60?p.reply+' min':Math.round(p.reply/60)+' hr'}</b></span></div>
       <div class="why-rank muted">${liked?`You liked ${liked} of their jobs. `:''}${ov?`${ov} of their jobs match the styles you picked. `:''}${whyRank(p,c)}</div>
       <div class="acts"><a class="btn sm" href="#pro-${p.id}">See their work</a>${followBtn(p.id)}</div></div>
       <div class="strip" style="grid-template-columns:repeat(2,minmax(0,1fr))">${p.jobs.filter(j=>j.cat===c).slice(0,2).map(j=>`<button data-act="job" data-id="${j.id}">${pic(j)}</button>`).join('')}</div></article>`).join('')}
@@ -1667,7 +1716,7 @@ function openJob(jid){
   const hasB=j.b||j.bimg;
   $('#lb').innerHTML=`<div class="lb" data-act="lbclose"><div class="box" role="dialog" aria-modal="true" aria-label="${esc(j.t)}">
     <button class="close" data-act="lbclose" aria-label="Close">×</button>
-    <div class="media">${hasB?beforeAfter(j):pic(j)}</div>
+    <div class="media">${hasB?lbMedia(j):pic(j)}</div>
     <div class="detail">
       <div class="chips" style="gap:6px">${j.verified?`<span class="badge good">${ICON.check}Verified by the customer</span>`:`<span class="badge">Posted by the trade</span>`}<span class="badge">${CAT[j.cat].label}</span></div>
       <h2>${esc(j.t)}</h2>
@@ -1675,7 +1724,7 @@ function openJob(jid){
       <div><p class="eyebrow" style="margin-bottom:8px">What was done</p><ul class="speclist">${j.spec.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div>
       <div><p class="eyebrow" style="margin-bottom:8px">Style</p><div class="chips">${j.st.map(s=>`<button class="chip" data-act="morelike" data-cat="${j.cat}" data-v="${esc(s)}">More “${esc(s)}”</button>`).join('')}</div></div>
       ${j.review?`<div class="review noimg" style="margin:0;background:var(--sunk);border:0"><div><div class="rh"><span><b>${esc(j.review.name)}</b>, the customer</span>${stars(j.review.stars)}</div><p>${esc(j.review.text)}</p></div></div>`:''}
-      <div style="display:flex;gap:10px;align-items:center;border-top:1px solid var(--line);padding-top:14px;flex-wrap:wrap">${avatar(p.name)}<div style="flex:1;min-width:140px"><b>${esc(p.name)}</b><div class="muted" style="font-size:13px">${stars(p.rating)} ${p.rating} · ${recCount(p)} recommend</div></div><a class="btn sm" href="#pro-${p.id}" data-act="lbclose">View profile</a></div>
+      <div style="display:flex;gap:10px;align-items:center;border-top:1px solid var(--line);padding-top:14px;flex-wrap:wrap">${avatar(p.name)}<div style="flex:1;min-width:140px"><b>${esc(p.name)}</b><div class="muted" style="font-size:13px">${stars(p.rating)} ${fmtR(p.rating)} · ${recCount(p)} recommend</div></div><a class="btn sm" href="#pro-${p.id}" data-act="lbclose">View profile</a></div>
     </div></div></div>`;
   hydrate($('#lb'));$('#lb .close').focus();
 }
@@ -1793,7 +1842,7 @@ function viewJoin(){
     <div><p class="eyebrow">For trades</p><h1 style="margin-top:14px">Let the work<br>win the <em>work.</em></h1>
       <p class="lede">Post the jobs you’re proud of. Customers searching for exactly that kind of job find you, see the quality, and read reviews from the people you did it for.</p>
       <div style="display:flex;gap:10px;margin-top:24px;flex-wrap:wrap"><a class="btn" href="#dash">Try the trade dashboard</a><a class="btn ghost" href="#pro-dan-hollis">See an example profile</a></div></div>
-    <div class="mosaic">${[PRO['ellie-marsh'].jobs[0],PRO['jodie-baines'].jobs[0],PRO['leon-mensah'].jobs[2]].map((j,i)=>`<button class="tile job" style="border:0" data-act="job" data-id="${j.id}">${i===0?beforeAfter(j):pic(j)}<div class="cap"><span class="tag"><b>${esc(j.t)}</b>${esc(PRO[j.pro].name)}</span></div></button>`).join('')}</div>
+    <div class="mosaic">${[PRO['ellie-marsh'].jobs[0],PRO['jodie-baines'].jobs[0],PRO['leon-mensah'].jobs[2]].map((j,i)=>`<button class="tile job" style="border:0" data-act="job" data-id="${j.id}">${pic(j)}<div class="cap"><span class="tag"><b>${esc(j.t)}</b>${esc(PRO[j.pro].name)}</span></div></button>`).join('')}</div>
   </div></section>
   <section class="section"><div class="wrap"><div class="sec-head"><div><h2>Getting set up</h2><p>Most trades are live within 48 hours.</p></div></div>
     <div class="steps"><div><b>Create your profile</b><span class="muted">Trades, areas covered, your price list and availability.</span></div><div><b>Get checked</b><span class="muted">Photo ID, insurance certificate and trading address.</span></div><div><b>Post 3 past jobs</b><span class="muted">Before and after photos, what you did and the rough cost.</span></div><div><b>Customers verify</b><span class="muted">Each customer confirms the job and can review it. Then you’re live.</span></div></div></div></section>
@@ -1897,7 +1946,8 @@ function rerenderAlertSpots(){const h=location.hash.slice(1);if(h==='me')viewMe(
 /* ---------- trust & safety ---------- */
 function viewTrust(){
   const steps=[['Photo ID','Matched to a live selfie before the profile goes up.'],['Insurance','Certificate checked with the insurer. We hide the profile the day cover lapses.'],['Qualifications','NVQs, cards and registrations checked against the issuer’s own register.'],['Trading address','Confirmed by post, not just typed in.'],['Three verified jobs','Real customers confirm three past jobs before the trade can take bookings.']];
-  const faq=[['Can a trade pay to appear higher?','No. Rank comes from star rating, verified jobs, recommendations and reply speed. Every plan, including the free one, is ranked the same way.'],
+  const faq=[['What is Graft Select?','Select is our top tier: trades rated 4.8 or above, with 20 or more neighbour recommendations, who answer at least 94% of requests. It is reviewed every month and cannot be bought.'],
+    ['Can a trade pay to appear higher?','No. Rank comes from star rating, verified jobs, recommendations and reply speed. Every plan, including the free one, is ranked the same way.'],
     ['Can reviews be faked?','A review can only be left on a job the trade photographed and posted, by the customer whose job it was. We confirm that customer by email and phone before the review appears.'],
     ['What if a trade doesn’t turn up?','Your deposit is still held by Graft, so nothing has been paid out. We refund it in full and help you find someone else this week.'],
     ['Do my neighbours see my address?','Never. Street alerts show the street name and a first name, and only when you choose to share a job.'],
@@ -1970,12 +2020,21 @@ document.addEventListener('click',e=>{
   if(a==='decline'){const s=store.get('reqstate',{});s[t.dataset.id]={s:'declined'};store.set('reqstate',s);viewDash();hydrate(app)}
 });
 // re-hydrate after any view re-render triggered outside route()
-new MutationObserver(()=>hydrate(app)).observe(app,{childList:true});
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const rvIO=('IntersectionObserver' in window)&&!RM?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rvIO.unobserve(e.target)}}),{rootMargin:'0px 0px -6% 0px'}):null;
+const cuIO=rvIO?new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;cuIO.unobserve(e.target);const el=e.target,m=el.textContent.match(/^(\D*)([\d,]+)(.*)$/);if(!m)return;const n=+m[2].replace(/,/g,'');if(!n)return;const t0=performance.now(),f=t=>{const k=Math.min(1,(t-t0)/1500);el.textContent=m[1]+Math.round(n*(1-Math.pow(1-k,3))).toLocaleString('en-GB')+m[3];if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}),{threshold:.6}):null;
+function reveal(root){if(!rvIO)return;let i=0;$$('.sec-head,.bento article,.feed .job,.workgrid .job,.selcard,.split-cta>div,.pro,.plan,.steps>div,.review,.rec,.post',root).forEach(el=>{if(el.dataset.rv)return;el.dataset.rv=1;if(el.getBoundingClientRect().top<innerHeight*.9)return;el.classList.add('rv');el.style.transitionDelay=(i++%4)*70+'ms';rvIO.observe(el)});$$('.proof b',root).forEach(b=>{if(!b.dataset.cu){b.dataset.cu=1;cuIO.observe(b)}})}
+new MutationObserver(()=>{hydrate(app);reveal(app)}).observe(app,{childList:true});
 addEventListener('hashchange',route);
 function setBig(on){document.documentElement.classList.toggle('big',on);$('#aa').setAttribute('aria-pressed',on);store.set('big',on)}
 $('#aa').addEventListener('click',()=>{const on=!document.documentElement.classList.contains('big');setBig(on);toast(on?'Easy read on: bigger text and buttons':'Easy read off')});
 setBig(store.get('big',false));
 $('#menubtn').addEventListener('click',()=>{const o=$('.top').classList.toggle('menu-open');$('#menubtn').setAttribute('aria-expanded',o)});
+const SUN_I='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>',MOON_I='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>',mqDark=matchMedia('(prefers-color-scheme: dark)');
+const effTheme=()=>document.documentElement.dataset.theme||(mqDark.matches?'dark':'light');
+function paintThemeBtn(){const d=effTheme()==='dark',b=$('#themebtn');b.innerHTML=d?SUN_I:MOON_I;b.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode')}
+$('#themebtn').addEventListener('click',()=>{const n=effTheme()==='dark'?'light':'dark',r=document.documentElement;r.classList.add('theming');r.dataset.theme=n;store.set('theme',n);paintThemeBtn();setTimeout(()=>r.classList.remove('theming'),450)});
+{const t=store.get('theme',null);if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;paintThemeBtn();try{mqDark.addEventListener('change',paintThemeBtn)}catch(_){}}
 updSaved();updBell();route();
 </script>
 
